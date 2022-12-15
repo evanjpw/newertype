@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "pwd"
+version = "ls"
+description = "An Implementation of the NewType Pattern for Python that works in dynamic contexts."
+authors = ["Evan Williams <ejw@fig.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
