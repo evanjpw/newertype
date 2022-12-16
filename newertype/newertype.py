@@ -9,17 +9,23 @@ class NewerTypeType(type):
     """"""
 
     def __new__(mcs, _name, bases, namespace, **kwargs):
-        name = kwargs.get("name", _name)
         contained_type = kwargs.get("the_contained_type", Any)
         namespace["contained_type"] = contained_type
+        name = kwargs.get("class_name", _name)
         return super().__new__(mcs, name, bases, namespace)
 
 
 def NewerType(name: str, the_contained_type: Type[T], **kwargs) -> type:  # noqa: N802
     """"""
 
-    class NewerTypeInstance(Generic[T], metaclass=NewerTypeType, name=name, the_contained_type=the_contained_type):
+    class NewerTypeInstance(
+        Generic[T],
+        metaclass=NewerTypeType,
+        class_name=name,
+        the_contained_type=the_contained_type,
+    ):
         """"""
+
         _contents: T
 
         def __init__(self, *args, **kwargs) -> None:
@@ -47,23 +53,3 @@ def NewerType(name: str, the_contained_type: Type[T], **kwargs) -> type:  # noqa
             self._contents = value
 
     return NewerTypeInstance
-# J = TypeVar("J")
-# *argsIIIIIIIJJparent_typeparent_typeparent_type: "NewerType[T]",
-#  = parent_type.
-# classGeneric[T]JparentJ"Newer"class_dictclass_dict
-        # _contained_type: Type[T]J
-            # self
-    # name: str
-    # the_contained_type: Type[T]
-    #
-    # def __init__(self, ) -> None:
-    #     self.name = name
-    #     self.the_contained_type = the_contained_type
-    #
-    # def __call__(self, *args, **kwargs) -> NewerTypeInstance:
-    #     """"""
-    #     return NewerTypeInstance(self, *args, **kwargs)
-
-
-
-
