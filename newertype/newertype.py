@@ -90,18 +90,20 @@ class NewerTypeType(type):
     def __init__(cls, name, bases, namespace, **kwargs):
         extra_forwards: List[str] = kwargs.get("extra_forwards", list())
         no_def_forwards: bool = kwargs.get("no_def_forwards", False)
-        methods_to_forward: List[str] = list() if no_def_forwards else NewerTypeType.METHODS_TO_FORWARD
+        methods_to_forward: List[str] = (
+            list() if no_def_forwards else NewerTypeType.METHODS_TO_FORWARD
+        )
         if extra_forwards:
             methods_to_forward.extend(extra_forwards)
         NewerTypeType._forward_methods(cls, namespace, methods_to_forward)
         super().__init__(name, bases, namespace)
 
     @staticmethod
-    def _collect_forwardable_methods(contained_type: type, methods_to_forward: List[str]) -> List[str]:
+    def _collect_forwardable_methods(
+        contained_type: type, methods_to_forward: List[str]
+    ) -> List[str]:
         contained_dict = contained_type.__dict__
-        to_forward = [
-            k for k in contained_dict if k in methods_to_forward
-        ]
+        to_forward = [k for k in contained_dict if k in methods_to_forward]
         return to_forward
 
     @staticmethod
@@ -117,9 +119,13 @@ class NewerTypeType(type):
         setattr(cls, method_name, forwarded)
 
     @staticmethod
-    def _forward_methods(cls, namespace: Dict[str, Any], methods_to_forward: List[str]) -> None:
+    def _forward_methods(
+        cls, namespace: Dict[str, Any], methods_to_forward: List[str]
+    ) -> None:
         contained_type: type = namespace["contained_type"]
-        to_forward = NewerTypeType._collect_forwardable_methods(contained_type, methods_to_forward)
+        to_forward = NewerTypeType._collect_forwardable_methods(
+            contained_type, methods_to_forward
+        )
         for method in to_forward:
             NewerTypeType._forward(cls, method, namespace)
 
