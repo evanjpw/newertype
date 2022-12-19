@@ -7,9 +7,9 @@ def test_basic():
     AType = NewerType("AType", int)  # noqa: N802
     a_type = AType(14)
     assert isinstance(a_type, AType)
-    assert a_type.deref == 14
-    a_type.deref = 27
-    assert a_type.deref == 27
+    assert a_type.inner == 14
+    a_type.inner = 27
+    assert a_type.inner == 27
     assert str(a_type.__class__.__name__) == "AType"
     EType = NewerType("EType", int)  # noqa: N802
     e_type = EType(70)
@@ -25,8 +25,23 @@ def test_string_conversions():
     assert bool(s_type) is True
     assert s_type is not None
     with pytest.raises(TypeError) as e:
-        assert bytes(s_type) == b"cannot convert 'float' object to bytes"
-    assert "" in str(e)
-    s_type.deref = 0.0
+        assert bytes(s_type) == b""
+    assert "cannot convert 'float' object to bytes" in str(e)
+    s_type.inner = 0.0
     assert bool(s_type) is False
     assert s_type is not None
+
+
+def test_forwarding():
+    IType = NewerType("IType", int)  # noqa: N802
+    i_type_1 = IType(7)
+    i_type_2 = IType(14)
+    i_result = i_type_1.__add__(i_type_2)
+    assert i_result == 21
+    assert int(i_type_1) < int(i_type_2)
+    assert i_type_1 + i_type_2 == 21
+    JType = NewerType("JType", int)  # noqa: N802
+    j_type_1 = JType(7)
+    with pytest.raises(TypeError) as e:
+        assert i_type_1 + j_type_1 == 21
+    assert "unsupported operand type(s) for +: 'IType' and 'JType'" in str(e)
