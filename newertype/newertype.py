@@ -102,7 +102,7 @@ class NewerTypeType(type):
     @staticmethod
     def _forward(cls, method_name, namespace):
         def forwarded(self, *args, **kwargs):
-            cooked_args = [  # s
+            cooked_args = [
                 arg.inner if isinstance(arg, type(self)) else arg for arg in args
             ]
             method = getattr(self._contents, method_name)
