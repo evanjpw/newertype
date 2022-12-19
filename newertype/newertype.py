@@ -88,14 +88,19 @@ class NewerTypeType(type):
         return super().__new__(mcs, name, bases, namespace)
 
     def __init__(cls, name, bases, namespace, **kwargs):
-        NewerTypeType._forward_methods(cls, namespace)
+        extra_forwards: List[str] = kwargs.get("extra_forwards", list())
+        no_def_forwards: bool = kwargs.get("no_def_forwards", False)
+        methods_to_forward: List[str] = list() if no_def_forwards else NewerTypeType.METHODS_TO_FORWARD
+        if extra_forwards:
+            methods_to_forward.extend(extra_forwards)
+        NewerTypeType._forward_methods(cls, namespace, methods_to_forward)
         super().__init__(name, bases, namespace)
 
     @staticmethod
-    def _collect_forwardable_methods(contained_type: type) -> List[str]:
+    def _collect_forwardable_methods(contained_type: type, methods_to_forward: List[str]) -> List[str]:
         contained_dict = contained_type.__dict__
         to_forward = [
-            k for k in contained_dict if k in NewerTypeType.METHODS_TO_FORWARD
+            k for k in contained_dict if k in methods_to_forward
         ]
         return to_forward
 
@@ -112,9 +117,9 @@ class NewerTypeType(type):
         setattr(cls, method_name, forwarded)
 
     @staticmethod
-    def _forward_methods(cls, namespace: Dict[str, Any]) -> None:
+    def _forward_methods(cls, namespace: Dict[str, Any], methods_to_forward: List[str]) -> None:
         contained_type: type = namespace["contained_type"]
-        to_forward = NewerTypeType._collect_forwardable_methods(contained_type)
+        to_forward = NewerTypeType._collect_forwardable_methods(contained_type, methods_to_forward)
         for method in to_forward:
             NewerTypeType._forward(cls, method, namespace)
 
@@ -122,11 +127,16 @@ class NewerTypeType(type):
 def NewerType(name: str, the_contained_type: Type[T], **kwargs) -> type:  # noqa: N802
     """"""
 
+    extra_forwards: List[str] = kwargs.get("extra_forwards", list())
+    no_def_forwards: bool = kwargs.get("no_def_forwards", False)
+
     class NewerTypeInstance(
         Generic[T],
         metaclass=NewerTypeType,
         class_name=name,
         the_contained_type=the_contained_type,
+        extra_forwards=extra_forwards,
+        no_def_forwards=no_def_forwards,
     ):
         """"""
 
