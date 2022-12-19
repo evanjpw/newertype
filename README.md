@@ -7,9 +7,13 @@ An Implementation of the NewType Pattern for Python that works in dynamic contex
 `NewerType` is a package that provides a semi-transparent wrapper to an existing type that allows it to be used
 mostly as if it's just the wrapped type, but which allows type checking as if it's a distinct type at runtime.
 
-With the addition to Python of [PEP 483](), [PEP 484](), & the [typing]() package, Python added support for type
+With the addition to Python of [PEP 483](https://peps.python.org/pep-0483/),
+[PEP 484](https://peps.python.org/pep-0484/), & the
+[typing](https://docs.python.org/3/library/typing.html#module-typing) package, Python added support for type
 hints. That included an implementation of the Haskell [`newtype`](https://wiki.haskell.org/Newtype) which was
-cleverly called `NewType`. As explained in [the documentation](), Python's `NewType` is, like most of the
+cleverly called `NewType`.
+As explained in [the documentation](https://docs.python.org/3/library/typing.html#typing.NewType),
+Python's `NewType` is, like most of the
 typing library, meant for use by static type checkers. This means that, when the code is running, the _Newness_ of
 the type is erased, leaving just the wrapped type & no way to tell that there was ever a `Newtype`, either by
 the code or by Python itself.
@@ -25,7 +29,11 @@ with a `Password`.
 
 ### Main Features
 
-* 
+* A wrapper that allows dynamic type checking while mostly not getting in the way
+* Carries type information with the object so you can always use `isinstace()` or `type()` to know what it is
+* Forwards the magic methods from the wrapped object so things like arithmetic or indexing work
+* Allows you to customize what methods are forwarded
+* No dependencies!
 
 ## Installation
 
