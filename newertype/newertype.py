@@ -1,6 +1,5 @@
 from typing import Any, Dict, Generic, List, Type, TypeVar
 
-# import pdb
 
 __all__ = ["NewerType"]
 
@@ -89,40 +88,28 @@ class NewerTypeType(type):
         return super().__new__(mcs, name, bases, namespace)
 
     def __init__(cls, name, bases, namespace, **kwargs):
-        # print(f"__init__ type is {type(cls)}")
         NewerTypeType._forward_methods(cls, namespace)
         super().__init__(name, bases, namespace)
 
     @staticmethod
     def _collect_forwardable_methods(contained_type: type) -> List[str]:
         contained_dict = contained_type.__dict__
-        # print(f"contained type: {repr(contained_dict)}")
         to_forward = [
             k for k in contained_dict if k in NewerTypeType.METHODS_TO_FORWARD
         ]
-        # print(f"to forward is {to_forward}")
         return to_forward
 
     @staticmethod
     def _forward(cls, method_name, namespace):
         def forwarded(self, *args, **kwargs):
-            # print(
-            #     f"forward({repr(args)}, {repr(kwargs)}), method_name is {method_name}"
-            # )
-            # print(f"args types are {[repr(type (arg)) for arg in args]}")
             cooked_args = [  # s
                 arg.inner if isinstance(arg, type(self)) else arg for arg in args
             ]
-            # print(f"cooked_args is {repr(cooked_args)}, type is {type(self)}")
             method = getattr(self._contents, method_name)
-            # print(f"forward method is {repr(method)}")
-            # pdb.set_trace()
             value = method(*cooked_args, **kwargs)
-            # print(f"value is {value}")
             return value
 
         setattr(cls, method_name, forwarded)
-        # namespace[method_name] = forwarded
 
     @staticmethod
     def _forward_methods(cls, namespace: Dict[str, Any]) -> None:
@@ -130,7 +117,6 @@ class NewerTypeType(type):
         to_forward = NewerTypeType._collect_forwardable_methods(contained_type)
         for method in to_forward:
             NewerTypeType._forward(cls, method, namespace)
-        # print(f"cls.__dict__ is {cls.__dict__}")
 
 
 def NewerType(name: str, the_contained_type: Type[T], **kwargs) -> type:  # noqa: N802
@@ -168,9 +154,6 @@ def NewerType(name: str, the_contained_type: Type[T], **kwargs) -> type:  # noqa
 
         @inner.setter
         def inner(self, value: T) -> None:
-            # print(f"In setter, values is {value}")
             self._contents = value
-
-    # print(f"NewerTypeInstance.__dict__ is {NewerTypeInstance.__dict__}")
 
     return NewerTypeInstance
