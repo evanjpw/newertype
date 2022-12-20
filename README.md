@@ -37,7 +37,7 @@ with a `Password`.
 
 ## Installation
 
-Current stable version (**not yet!**):
+Current stable version:
 ```shell
 pip install newertype
 ```
@@ -123,6 +123,55 @@ bytes(s_type)  # `bytes only works if it works with the wrapped type
 s_type.inner = 0.0
 bool(s_type)
 # Returns: False
+```
+
+What about forwarding your own methods on your own classes? NewerType can handle that:
+
+```python
+# First, define a class. It can have the standard indexing methods, but also some unique ones:
+class Forwardable(UserDict):
+    def forwarded(self, value):
+        return value
+
+    def also_forwarded(self, key):
+        return self[key]
+
+    def __getitem__(self, item):
+        return super().__getitem__(item)
+
+    def __setitem__(self, key, value):
+        super().__setitem__(key, value)
+
+# The normal behavior is for NewerType to forward the standard methods but ignore the custom ones:
+FO1Type = NewerType("FO1Type", Forwardable)
+fo1_type_1 = FO1Type(Forwardable())
+fo1_type_1["a"] = 5  # `__setitem__` is a standard method, so it's forwarded
+fo1_type_1["a"]  # So is `__getitem__`
+# Returns: 5
+fo1_type_1.forwarded(5)  # But unique methods are not forwarded
+# "AttributeError: FO1Type' object has no attribute 'forwarded'"
+
+# We can use "extra_forwards" to specify the additional methods we'd like to forward:
+FO2Type = NewerType(
+    "FO2Type", Forwardable, extra_forwards=["forwarded", "also_forwarded"]
+)
+fo2_type_1 = FO2Type(Forwardable())
+fo2_type_1["e"] = 7  # This continues to work
+fo2_type_1["e"]  # As does this
+# Returns: 7
+fo2_type_1.also_forwarded("e")  # But now this works also!
+# Returns: 7
+
+# But what if we _don't_ want to forward the standard methods? Use "no_def_forwards":
+FO3Type = NewerType(
+    "FO3Type", Forwardable, extra_forwards=["also_forwarded"], no_def_forwards=True
+)
+fo3_type_1 = FO3Type(Forwardable())
+fo3_type_1.inner["g"] = 8
+fo3_type_1.also_forwarded("g")  # The extra methods continue to work
+# Returns: 8
+fo3_type_1["g"]  # But the standard ones don't (unless we specifically mention them in "extra_forwards")
+# "TypeError: 'FO3Type' object is not subscriptable"
 ```
 
 ## TBD
