@@ -150,7 +150,7 @@ def NewerType(name: str, the_contained_type: Type[T], **kwargs) -> type:  # noqa
 
         def __init__(self, *args, **kwargs) -> None:
             self._contents = the_contained_type(*args, **kwargs)
-            super().__init__()  # I would have thought `*args, **kwargs` would work here
+            super().__init__()
 
         def __str__(self):
             return f"{self.__class__.__name__}({str(self._contents)})"

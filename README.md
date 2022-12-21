@@ -78,7 +78,7 @@ e_type_1 = EType(7)
 e_type_2 = EType(14)
 e_type_2 > e_type_1  # All of the `int` operations work
 # Returns: True
-a_type_1 != e_type_1  # But different types are not equal, even if the wrapped value is
+a_type_1 == e_type_1  # But different types are not equal, even if the wrapped value is
 Returns: False
 
 IType = NewerType("IType", int)
