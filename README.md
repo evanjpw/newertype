@@ -78,7 +78,7 @@ e_type_1 = EType(7)
 e_type_2 = EType(14)
 e_type_2 > e_type_1  # All of the `int` operations work
 # Returns: True
-a_type_1 != e_type_1  # But different types are not equal, even if the wrapped value is
+a_type_1 == e_type_1  # But different types are not equal, even if the wrapped value is
 Returns: False
 
 IType = NewerType("IType", int)
@@ -117,7 +117,7 @@ repr(s_type)
 # Returns: "SType(2.718281828459045)"
 bool(s_type)
 # Returns: True
-bytes(s_type)  # `bytes only works if it works with the wrapped type
+bytes(s_type)  # `bytes()` only works if it works with the wrapped type
 # "TypeError: cannot convert 'float' object to bytes"
 
 s_type.inner = 0.0
@@ -175,6 +175,10 @@ fo3_type_1["g"]  # But the standard ones don't (unless we specifically mention t
 ```
 
 ## TBD
+
+* The `bytes()` built-in currently just forces all wrapped `str` objects to "utf-8" as an encoding.
+ If you need a *different* encoding, use `bytes()` of `.inner`.
+* There are a *bunch* more methods that should be in the whitelist for forwarding. That's a work in progress.
 
 ## Project Resources
 
