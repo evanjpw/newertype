@@ -2,6 +2,12 @@
 
 An Implementation of the NewType Pattern for Python that works in dynamic contexts.
 
+  [![PyPI version](https://img.shields.io/pypi/v/newertype.svg)](https://pypi.org/project/newertype/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Python Versions](https://img.shields.io/pypi/pyversions/newertype.svg)](https://pypi.org/project/newertype/)
+  [![Downloads](https://pepy.tech/badge/newertype)](https://pepy.tech/project/newertype)
+  [![Python package](https://github.com/evanjpw/newertype/actions/workflows/python-package.yml/badge.svg)](https://github.com/evanjpw/newertype/actions/workflows/python-package.yml)
+
 ## What is it?
 
 `NewerType` is a package that provides a semi-transparent wrapper to an existing type that allows it to be used
@@ -183,9 +189,9 @@ fo3_type_1["g"]  # But the standard ones don't (unless we specifically mention t
 ## Project Resources
 
 * Documentation - TBD
-* Issue tracker - TBD
-* Source code - TBD
-* Change log - TBD
+* [Issue tracker](https://github.com/evanjpw/newertype/issues)
+* [Source code](https://github.com/evanjpw/newertype)
+* [Change log](https://github.com/evanjpw/newertype/blob/main/CHANGELOG.md)
 
 ## License
 
