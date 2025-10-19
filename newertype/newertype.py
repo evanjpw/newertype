@@ -101,7 +101,8 @@ class NewerTypeType(type):
             _name: Internal name for the class.
             bases: Base classes.
             namespace: Class namespace dictionary.
-            **kwargs: Additional arguments including 'the_contained_type' and 'class_name'.
+            **kwargs: Additional arguments including 'the_contained_type'
+                      and 'class_name'.
 
         Returns:
             A new class with the specified name and contained type.
