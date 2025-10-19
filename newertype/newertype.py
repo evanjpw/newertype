@@ -88,10 +88,16 @@ class NewerTypeType(type):
         "__enter__",
         "__exit__",
         "__eq__",
+        "__ne__",
         "__le__",
         "__lt__",
         "__gt__",
         "__ge__",
+        "__hash__",
+        "__format__",
+        "__sizeof__",
+        "__copy__",
+        "__deepcopy__",
     ]
 
     def __new__(mcs, _name, bases, namespace, **kwargs):

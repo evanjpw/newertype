@@ -1,6 +1,6 @@
 [project]
 name = "newertype"
-version = "0.2.0"
+version = "0.3.0"
 description = "An Implementation of the NewType Pattern for Python that works in dynamic contexts."
 readme = "README.md"
 authors = [
