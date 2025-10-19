@@ -180,6 +180,10 @@ fo3_type_1["g"]  # But the standard ones don't (unless we specifically mention t
 # "TypeError: 'FO3Type' object is not subscriptable"
 ```
 
+# Documentation
+
+See [the documentation](https://evanjpw.github.io/newertype/)
+
 ## TBD
 
 * The `bytes()` built-in currently just forces all wrapped `str` objects to "utf-8" as an encoding.

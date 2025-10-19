@@ -1,0 +1,52 @@
+site_name: NewerType
+site_description: Runtime type checking for the NewType pattern
+site_url: https://evanjpw.github.io/newertype/
+repo_url: https://github.com/evanjpw/newertype
+repo_name: evanjpw/newertype
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - toc.follow
+    - search.suggest
+    - search.highlight
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+
+nav:
+  - Home: index.md
+  - API Reference: api.md

@@ -46,6 +46,9 @@ dev = [
     "ruff>=0.13.3",
     "isort>=5.13.2",
     "pre-commit>=3.5.0",
+    "mkdocs>=1.6.1",
+    "mkdocs-material>=9.6.21",
+    "mkdocstrings[python]>=0.11.4",
 ]
 
 [tool.isort]
