@@ -82,6 +82,7 @@ exclude = [
     "/.github",
     "/.idea",
     "/tests",
+    "/.save",
 ]
 
 [tool.hatch.build.targets.wheel]

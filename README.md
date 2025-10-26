@@ -9,7 +9,7 @@ An Implementation of the NewType Pattern for Python that works in dynamic contex
   [![Python package](https://github.com/evanjpw/newertype/actions/workflows/python-package.yml/badge.svg)](https://github.com/evanjpw/newertype/actions/workflows/python-package.yml)
 
 > [!WARNING]
-> ** Breaking Change in coming 1.0.0 **
+> Breaking Change in coming 1.0.0
 > (for a really weird edge case that almost certainly doesn't apply to you).
 > See [the documentation](https://evanjpw.github.io/newertype/) for more information.
 
