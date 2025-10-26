@@ -10,6 +10,9 @@ __all__ = ["NewerType"]
 
 T = TypeVar("T")
 
+# Cache for created types to ensure same parameters = same type
+_TYPE_CACHE: Dict[tuple, type] = {}
+
 
 class NewerTypeType(type):
     """Metaclass for creating NewerType instances with method forwarding.
@@ -203,6 +206,10 @@ def NewerType(name: str, the_contained_type: Type[T], **kwargs) -> type:  # noqa
     Instances of different NewerTypes are not compatible even if they wrap
     the same underlying type.
 
+    Types are cached based on all parameters, so calling NewerType with the
+    same arguments will return the same type object. This behavior can be
+    disabled by setting use_cache=False.
+
     Args:
         name: The name for the new type.
         the_contained_type: The type to wrap.
@@ -211,6 +218,8 @@ def NewerType(name: str, the_contained_type: Type[T], **kwargs) -> type:  # noqa
               from the wrapped type.
             - no_def_forwards: If True, don't forward the default set of
               magic methods.
+            - use_cache: If False, always create a new type instead of
+              returning a cached one. Default: True.
 
     Returns:
         A new type class that wraps the specified type.
@@ -222,9 +231,30 @@ def NewerType(name: str, the_contained_type: Type[T], **kwargs) -> type:  # noqa
         True
         >>> isinstance(user_id, int)
         False
+        >>> # Calling with same parameters returns different types
+        >>> UserId2 = NewerType("UserId", int)
+        >>> UserId is UserId2
+        False
+        >>> # Enable caching to get the same type (cached)
+        >>> UserId3 = NewerType("UserId", int, use_cache=True)
+        >>> UserId is UserId3
+        True
     """
     extra_forwards: List[str] = kwargs.get("extra_forwards", list())
     no_def_forwards: bool = kwargs.get("no_def_forwards", False)
+    use_cache: bool = kwargs.get("use_cache", False)
+
+    # Create cache key from all parameters (excluding use_cache itself)
+    cache_key = (
+        name,
+        the_contained_type,
+        tuple(sorted(extra_forwards)),
+        no_def_forwards,
+    )
+
+    # Return cached type if it exists and caching is enabled
+    if use_cache and cache_key in _TYPE_CACHE:
+        return _TYPE_CACHE[cache_key]
 
     class NewerTypeInstance(
         Generic[T],
@@ -291,4 +321,7 @@ def NewerType(name: str, the_contained_type: Type[T], **kwargs) -> type:  # noqa
             """
             self._contents = value
 
+    # Cache the type before returning (if caching is enabled)
+    if use_cache:
+        _TYPE_CACHE[cache_key] = NewerTypeInstance
     return NewerTypeInstance

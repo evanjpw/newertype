@@ -8,6 +8,11 @@ An Implementation of the NewType Pattern for Python that works in dynamic contex
   [![Downloads](https://pepy.tech/badge/newertype)](https://pepy.tech/project/newertype)
   [![Python package](https://github.com/evanjpw/newertype/actions/workflows/python-package.yml/badge.svg)](https://github.com/evanjpw/newertype/actions/workflows/python-package.yml)
 
+> [!WARNING]
+> ** Breaking Change in coming 1.0.0 **
+> (for a really weird edge case that almost certainly doesn't apply to you).
+> See [the documentation](https://evanjpw.github.io/newertype/) for more information.
+
 ## What is it?
 
 `NewerType` is a package that provides a semi-transparent wrapper to an existing type that allows it to be used
@@ -189,6 +194,7 @@ See [the documentation](https://evanjpw.github.io/newertype/)
 * The `bytes()` built-in currently just forces all wrapped `str` objects to "utf-8" as an encoding.
  If you need a *different* encoding, use `bytes()` of `.inner`.
 * There are a *bunch* more methods that should be in the whitelist for forwarding. That's a work in progress.
+* Pickling _does not work_, currently, but can be made to work if there is popular demand.
 
 ## Project Resources
 

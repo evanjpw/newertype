@@ -1,6 +1,6 @@
 [project]
 name = "newertype"
-version = "0.3.0"
+version = "0.4.0"
 description = "An Implementation of the NewType Pattern for Python that works in dynamic contexts."
 readme = "README.md"
 authors = [
@@ -38,7 +38,9 @@ homepage = "https://github.com/evanjpw/newertype"
 repository = "https://github.com/evanjpw/newertype"
 issues = "https://github.com/evanjpw/newertype/issues"
 changelog = "https://github.com/evanjpw/newertype/blob/main/CHANGELOG.md"
+documentation ="https://evanjpw.github.io/newertype/"
 
+# TODO: Should probably use `[dependency-groups]` & `dev`, `docs`, & `test`, but who has time for that?
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",

@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-10-26
+
+### Added
+
+- Type caching: `NewerType("Foo", int, use_cache=True) is NewerType("Foo", int, use_cache=True)` now returns `True`.
+  **Type caching is currently disabled by default, but will be enabled by default starting in 1.0**
+- New `use_cache` parameter to enable/disable caching if needed (for backwards compatibility)
+- Tests for type caching behavior
+
 ## [0.3.0] - 2025-10-18
 
 ### Added
@@ -65,7 +74,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for arithmetic, comparison, and container operations
 - Zero dependencies
 
-[Unreleased]: https://github.com/evanjpw/newertype/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/evanjpw/newertype/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/evanjpw/newertype/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/evanjpw/newertype/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/evanjpw/newertype/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/evanjpw/newertype/releases/tag/v0.1.2

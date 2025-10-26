@@ -2,6 +2,31 @@
 
 An Implementation of the NewType Pattern for Python that works in dynamic contexts.
 
+!!! warning "Breaking Change coming in 1.0"
+    **Version 1.0 will introduce type caching**, which changes behavior from previous versions:
+
+    - Calling `NewerType` with the same parameters will return the **same type object** (cached)
+    - Currently, each call created a **new type object**
+
+    This code is already in 0.4.0, but inactive.
+
+    To start using it now:
+
+    ```python
+    Type = NewerType("SomeType", int, use_cache=True)
+    ```
+
+    **Migration:** If your code depends on getting different types from duplicate calls, use `use_cache=False`:
+
+    ```python
+    # Current behavior (each call creates a new type)
+    Type1 = NewerType("MyType", int, use_cache=False)
+    Type2 = NewerType("MyType", int, use_cache=False)
+    assert Type1 is not Type2  # Different types
+    ```
+
+    For most users, the new caching behavior will be more intuitive and will improve performance.
+
 ## What is it?
 
 `NewerType` is a package that provides a semi-transparent wrapper to an existing type that allows it to be used mostly as if it's just the wrapped type, but which allows type checking as if it's a distinct type at runtime.
